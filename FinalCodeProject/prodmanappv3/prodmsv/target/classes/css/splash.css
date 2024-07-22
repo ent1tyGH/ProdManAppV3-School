@@ -1,38 +1,17 @@
-.root {
-    -fx-background-color: #e0e0e0; /* Light grey */
-    -fx-alignment: center;
+.root{
+    -fx-background-color: Pink;
+    -fx-alignment:center;
 }
 
-#textArea {
-    -fx-text-fill: #333333; /* Dark grey */
-    -fx-font-size: 20;
-    -fx-background-color: #ffffff; /* White */
-    -fx-padding: 10;
-    -fx-border-color: #b0b0b0; /* Medium grey */
-    -fx-border-width: 1;
+#textArea{
+   -fx-text-fill: Blue;
+   -fx-font-size: 20;
+
 }
 
-#pane {
-    -fx-border-style: solid;
-    -fx-border-width: 2;
-    -fx-border-color: #333333; /* Dark grey */
-    -fx-background-color: #ffffff; /* White */
-    -fx-padding: 15;
-}
+#pane{
+   -fx-border-style:solid;
+   -fx-border-width:10;
+   -fx-border-color:Black;
 
-Button {
-    -fx-background-color: #333333; /* Dark grey */
-    -fx-text-fill: #ffffff; /* White */
-    -fx-font-size: 14;
-    -fx-padding: 5 10 5 10;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
-Button:hover {
-    -fx-background-color: #555555; /* Lighter grey on hover */
-}
-
-Button:pressed {
-    -fx-background-color: #111111; /* Darker grey when pressed */
 }

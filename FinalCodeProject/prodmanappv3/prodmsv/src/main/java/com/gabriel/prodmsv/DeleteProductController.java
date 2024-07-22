@@ -1,7 +1,7 @@
 package com.gabriel.prodmsv;
 
-import com.gabriel.prodmsv.ServiceImpl.ProductService;
-import com.gabriel.prodmsv.model.Product;
+import com.gabriel.prodmsv.ServiceImpl.ContactService;
+import com.gabriel.prodmsv.model.Contact;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -26,12 +26,12 @@ public class DeleteProductController implements Initializable {
     @Setter
     Scene parentScene;
     @Setter
-    ProductService productService;
+    ContactService productService;
     @Setter
     ProdManController controller;
 
     public void refresh(){
-        Product product= ProdManController.product;
+        Contact product= ProdManController.product;
         tfId.setText(Integer.toString(product.getId()));
         tfName.setText(product.getName());
         tfDesc.setText(product.getDescription());
@@ -58,8 +58,8 @@ public class DeleteProductController implements Initializable {
 
     public void onSubmit(ActionEvent actionEvent) {
         try {
-            Product product = toObject(true);
-            ProductService.getService().delete(product.getId());
+            Contact product = toObject(true);
+            ContactService.getService().delete(product.getId());
             controller.refresh();
             controller.clearControlTexts();
             Node node = ((Node) (actionEvent.getSource()));
@@ -75,8 +75,8 @@ public class DeleteProductController implements Initializable {
         }
     }
 
-    protected Product toObject(boolean isEdit){
-        Product product= new Product();
+    protected Contact toObject(boolean isEdit){
+        Contact product= new Contact();
         try {
             if(isEdit) {
                 product.setId(Integer.parseInt(tfId.getText()));

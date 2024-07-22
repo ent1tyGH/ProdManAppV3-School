@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gabriel.prodmsv.SplashController">
+<AnchorPane prefHeight="600.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gabriel.prodmsv.SplashController">
    <children>
       <VBox prefHeight="50.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -20,51 +13,15 @@
                <children>
                   <ImageView fx:id="productImage" fitHeight="194.0" fitWidth="285.0" pickOnBounds="true" preserveRatio="true" />
                </children>
-               <style>
-                  -fx-border-style: solid;
-                  -fx-border-width: 2;
-                  -fx-border-color: #333333; /* Dark grey */
-                  -fx-background-color: #ffffff; /* White */
-               </style>
             </StackPane>
             <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" promptText="\@Copyright" text="This is a Product Management Application template developed by Rijai Consulting." wrapText="true">
                <padding>
                   <Insets bottom="10.0" />
                </padding>
-               <font>
-                  <Font name="Academy Engraved LET Plain:1.0" size="13.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </opaqueInsets>
-               <effect>
-                  <Glow />
-               </effect>
-               <style>
-                  -fx-text-fill: #333333; /* Dark grey */
-                  -fx-font-size: 13;
-                  -fx-background-color: #ffffff; /* White */
-                  -fx-padding: 10;
-                  -fx-border-color: #b0b0b0; /* Medium grey */
-                  -fx-border-width: 1;
-               </style>
             </TextArea>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <FlowPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <ButtonBar prefHeight="40.0" prefWidth="193.0">
-                           <buttons>
-                              <Button fx:id="btnProceed" minWidth="23.0" mnemonicParsing="false" onAction="#onProceed" prefHeight="26.0" prefWidth="87.0" text="Proceed">
-                              <style>
-                                    -fx-background-color: #333333; /* Dark grey */
-                                    -fx-text-fill: #ffffff; /* White */
-                                 </style>
-                              </Button>
-                           </buttons>
-                        </ButtonBar>
-                     </children>
-                  </FlowPane>
+                  <Button fx:id="btnProceed" mnemonicParsing="false" onAction="#onProceed" text="Proceed" />
                </children>
             </VBox>
          </children>

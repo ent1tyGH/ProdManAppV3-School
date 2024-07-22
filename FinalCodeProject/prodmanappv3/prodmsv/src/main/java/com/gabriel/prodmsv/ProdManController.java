@@ -1,7 +1,7 @@
 package com.gabriel.prodmsv;
 
-import com.gabriel.prodmsv.ServiceImpl.ProductService;
-import com.gabriel.prodmsv.model.Product;
+import com.gabriel.prodmsv.ServiceImpl.ContactService;
+import com.gabriel.prodmsv.model.Contact;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import lombok.Data;
@@ -53,18 +52,18 @@ public class ProdManController implements Initializable {
     @FXML
     public Button closeButton;
 
-    public static Product product;
+    public static Contact product;
     @FXML
-    private ListView<Product> lvProducts;
+    private ListView<Contact> lvProducts;
 
     UpdateProductController updateProductController;
     DeleteProductController deleteProductController;
-    CreateProductController createProductController;
-    ProductService productService;
+    CreateContactController createProductController;
+    ContactService productService;
 
     void refresh() throws Exception{
-        productService = ProductService.getService();
-        Product[] products = productService.getProducts();
+        productService = ContactService.getService();
+        Contact[] products = productService.getProducts();
         lvProducts.getItems().clear();
         lvProducts.getItems().addAll(products);
     }
@@ -97,7 +96,7 @@ public class ProdManController implements Initializable {
         tfUom.editableProperty().set(false);
     }
 
-    public void setControlTexts(Product product){
+    public void setControlTexts(Contact product){
         tfName.setText(product.getName());
         tfDesc.setText(product.getDescription());
         tfUom.setText(product.getUomName());
@@ -128,7 +127,7 @@ public class ProdManController implements Initializable {
         window.hide();
         try {
             if(createViewScene ==null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(SplashApp.class.getResource("create-product.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(SplashApp.class.getResource("create-contact.fxml"));
                 Parent root = (Parent) fxmlLoader.load();
                 createProductController = fxmlLoader.getController();
                 createProductController.setStage(this.stage);
@@ -161,7 +160,7 @@ public class ProdManController implements Initializable {
         window.hide();
         try {
             if(updateViewScene ==null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(SplashApp.class.getResource("update-product.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(SplashApp.class.getResource("update-contact.fxml"));
                 Parent root = (Parent) fxmlLoader.load();
                 updateProductController = fxmlLoader.getController();
                 updateProductController.setController(this);
@@ -188,7 +187,7 @@ public class ProdManController implements Initializable {
         window.hide();
         try {
             if(deleteViewScene  ==null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(SplashApp.class.getResource("delete-product.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(SplashApp.class.getResource("delete-contact.fxml"));
                 Parent root = (Parent) fxmlLoader.load();
                 deleteProductController = fxmlLoader.getController();
                 deleteProductController.setController(this);
@@ -223,7 +222,7 @@ public class ProdManController implements Initializable {
         alert.showAndWait();
     }
 
-    public void addItem(Product product){
+    public void addItem(Contact product){
         lvProducts.getItems().add(product);
     }
 }
