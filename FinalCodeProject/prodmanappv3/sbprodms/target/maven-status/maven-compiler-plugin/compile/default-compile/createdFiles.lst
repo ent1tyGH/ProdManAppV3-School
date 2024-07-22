@@ -1,0 +1,3 @@
+com\gabriel\prodmsapp\ContactMSApplication.class
+com\gabriel\prodmsapp\serviceimpl\LocalContactServiceImpl.class
+com\gabriel\prodmsapp\controller\ContactController.class

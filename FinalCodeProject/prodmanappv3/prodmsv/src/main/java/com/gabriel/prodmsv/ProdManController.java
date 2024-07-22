@@ -1,6 +1,6 @@
 package com.gabriel.prodmsv;
 
-import com.gabriel.prodmsv.ServiceImpl.ContactService;
+import com.gabriel.prodmsv.ServiceImpl.RemoteContactServiceImpl;
 import com.gabriel.prodmsv.model.Contact;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -21,208 +21,205 @@ import lombok.Data;
 import lombok.Setter;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ResourceBundle;
+
 @Data
 public class ProdManController implements Initializable {
+
     @Setter
-    Stage stage;
+    private Stage stage;
     @Setter
-    Scene createViewScene;
+    private Scene createViewScene;
     @Setter
-    Scene updateViewScene;
+    private Scene updateViewScene;
     @Setter
-    Scene deleteViewScene;
-
-    public TextField tfId;
-    public TextField tfName;
-    public TextField tfDesc;
-    public ImageView productImage;
-    public VBox prodman;
-    public TextField tfUom;
-
-    Image puffy;
-    Image wink;
+    private Scene deleteViewScene;
 
     @FXML
-    public Button createButton;
+    private TextField tfId;
     @FXML
-    public Button updateButton;
+    private TextField tfName;
     @FXML
-    public Button deleteButton;
+    private TextField tfDesc;
     @FXML
-    public Button closeButton;
+    private TextField tfUom;
+    @FXML
+    private ImageView productImage;
+    @FXML
+    private VBox prodman;
+    @FXML
+    private ListView<Contact> lvContacts;
+    @FXML
+    private Button createButton;
+    @FXML
+    private Button updateButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button closeButton;
 
-    public static Contact product;
-    @FXML
-    private ListView<Contact> lvProducts;
+    private Image puffy;
+    private Image wink;
 
-    UpdateProductController updateProductController;
-    DeleteProductController deleteProductController;
-    CreateContactController createProductController;
-    ContactService productService;
+    private ContactService contactService;
 
-    void refresh() throws Exception{
-        productService = ContactService.getService();
-        Contact[] products = productService.getProducts();
-        lvProducts.getItems().clear();
-        lvProducts.getItems().addAll(products);
-    }
+    private UpdateContactController updateContactController;
+    private DeleteContactController deleteContactController;
+    private CreateContactController createContactController;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("ProdManController: initialize");
         disableControls();
-
         try {
             refresh();
-            try {
-                puffy = new Image(getClass().getResourceAsStream("/images/puffy.gif"));
-                wink = new Image(getClass().getResourceAsStream("/images/wink.gif"));
-                productImage.setImage(puffy);
-            }
-            catch(Exception ex){
-                System.out.println("Error with image: " + ex.getMessage());
-            }
-        }
-        catch (Exception ex){
-            showErrorDialog("Message: " + ex.getMessage());
+            puffy = new Image(getClass().getResourceAsStream("/images/puffy.gif"));
+            wink = new Image(getClass().getResourceAsStream("/images/wink.gif"));
+            productImage.setImage(puffy);
+        } catch (Exception ex) {
+            showErrorDialog("Error with image: " + ex.getMessage());
         }
     }
 
-    public  void disableControls(){
-        tfId.editableProperty().set(false);
-        tfName.editableProperty().set(false);
-        tfDesc.editableProperty().set(false);
-        tfUom.editableProperty().set(false);
+    public void disableControls() {
+        tfId.setEditable(false);
+        tfName.setEditable(false);
+        tfDesc.setEditable(false);
+        tfUom.setEditable(false);
     }
 
-    public void setControlTexts(Contact product){
-        tfName.setText(product.getName());
-        tfDesc.setText(product.getDescription());
-        tfUom.setText(product.getUomName());
+    public void setControlTexts(Contact contact) {
+        tfName.setText(contact.getName());
+        tfDesc.setText(contact.getDescription());
+        tfUom.setText(contact.getUomName());
     }
 
-    public void clearControlTexts(){
-        tfId.setText("");
-        tfName.setText("");
-        tfDesc.setText("");
-        tfUom.setText("");
+    public void clearControlTexts() {
+        tfId.clear();
+        tfName.clear();
+        tfDesc.clear();
+        tfUom.clear();
     }
 
+    @FXML
     public void onMouseClicked(MouseEvent mouseEvent) {
-        product = lvProducts.getSelectionModel().getSelectedItem();
-        if(product == null) {
+        Contact contact = lvContacts.getSelectionModel().getSelectedItem();
+        if (contact == null) {
             return;
         }
-        tfId.setText(Integer.toString(product.getId()));
-        setControlTexts(product);
-        System.out.println("clicked on " + product);
+        tfId.setText(Integer.toString(contact.getId()));
+        setControlTexts(contact);
+        System.out.println("Clicked on " + contact);
     }
 
+    @FXML
     public void onCreate(ActionEvent actionEvent) {
-        System.out.println("ProdmanController:onNewProduct ");
-        Node node = ((Node) (actionEvent.getSource()));
+        System.out.println("ProdManController: onCreate ");
+        Node node = (Node) actionEvent.getSource();
         Scene currentScene = node.getScene();
         Window window = currentScene.getWindow();
         window.hide();
         try {
-            if(createViewScene ==null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(SplashApp.class.getResource("create-contact.fxml"));
-                Parent root = (Parent) fxmlLoader.load();
-                createProductController = fxmlLoader.getController();
-                createProductController.setStage(this.stage);
-                createProductController.setParentScene(currentScene);
-                createProductController.setProductService(productService);
-                createProductController.setProdManController(this);
-                createProductController.setParentScene(currentScene);
+            if (createViewScene == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("create-contact.fxml"));
+                Parent root = fxmlLoader.load();
+                createContactController = fxmlLoader.getController();
+                createContactController.setStage(stage);
+                createContactController.setParentScene(currentScene);
+                createContactController.setContactService(contactService);
+                createContactController.setProdManController(this);
                 createViewScene = new Scene(root, 300, 600);
-                stage.setTitle("Manage Product");
+                stage.setTitle("Create Contact");
+                stage.setScene(createViewScene);
+                stage.show();
+            } else {
                 stage.setScene(createViewScene);
                 stage.show();
             }
-            else{
-                stage.setScene(createViewScene);
-                stage.show();
-            }
-            createProductController.clearControlTexts();
+            createContactController.clearControlTexts();
             clearControlTexts();
-        }
-        catch(Exception ex){
-            System.out.println("ProdmanController: "+ ex.getMessage());
+        } catch (Exception ex) {
+            showErrorDialog("Error: " + ex.getMessage());
         }
     }
 
+    @FXML
     public void onUpdate(ActionEvent actionEvent) {
-        System.out.println("ProdmanController:onUpdate ");
-        Node node = ((Node) (actionEvent.getSource()));
+        System.out.println("ProdManController: onUpdate ");
+        Node node = (Node) actionEvent.getSource();
         Scene currentScene = node.getScene();
         Window window = currentScene.getWindow();
         window.hide();
         try {
-            if(updateViewScene ==null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(SplashApp.class.getResource("update-contact.fxml"));
-                Parent root = (Parent) fxmlLoader.load();
-                updateProductController = fxmlLoader.getController();
-                updateProductController.setController(this);
-                updateProductController.setStage(this.stage);
-                updateProductController.setParentScene(currentScene);
+            if (updateViewScene == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("update-contact.fxml"));
+                Parent root = fxmlLoader.load();
+                updateContactController = fxmlLoader.getController();
+                updateContactController.setController(this);
+                updateContactController.setStage(stage);
+                updateContactController.setParentScene(currentScene);
                 updateViewScene = new Scene(root, 300, 600);
+            } else {
+                updateContactController.refresh();
             }
-            else{
-                updateProductController.refresh();
-            }
-            stage.setTitle("Create Product");
+            stage.setTitle("Update Contact");
             stage.setScene(updateViewScene);
             stage.show();
-        }
-        catch(Exception ex){
-            System.out.println("ProdmanController: "+ ex.getMessage());
+        } catch (Exception ex) {
+            showErrorDialog("Error: " + ex.getMessage());
         }
     }
+
+    @FXML
     public void onDelete(ActionEvent actionEvent) {
-        System.out.println("ProdmanController:onDelete ");
-        Node node = ((Node) (actionEvent.getSource()));
+        System.out.println("ProdManController: onDelete ");
+        Node node = (Node) actionEvent.getSource();
         Scene currentScene = node.getScene();
         Window window = currentScene.getWindow();
         window.hide();
         try {
-            if(deleteViewScene  ==null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(SplashApp.class.getResource("delete-contact.fxml"));
-                Parent root = (Parent) fxmlLoader.load();
-                deleteProductController = fxmlLoader.getController();
-                deleteProductController.setController(this);
-                deleteProductController.setStage(this.stage);
-                deleteProductController.setParentScene(currentScene);
+            if (deleteViewScene == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("delete-contact.fxml"));
+                Parent root = fxmlLoader.load();
+                deleteContactController = fxmlLoader.getController();
+                deleteContactController.setController(this);
+                deleteContactController.setStage(stage);
+                deleteContactController.setParentScene(currentScene);
                 deleteViewScene = new Scene(root, 300, 600);
+            } else {
+                deleteContactController.refresh();
             }
-            else{
-                deleteProductController.refresh();
-            }
-            stage.setTitle("Delete Product");
+            stage.setTitle("Delete Contact");
             stage.setScene(deleteViewScene);
             stage.show();
-        }
-        catch(Exception ex){
-            System.out.println("ProdmanController: "+ ex.getMessage());
+        } catch (Exception ex) {
+            showErrorDialog("Error: " + ex.getMessage());
         }
     }
 
+    @FXML
     public void onClose(ActionEvent actionEvent) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Exit and loose changes? " , ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Exit and lose changes?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
             Platform.exit();
         }
     }
 
-    void showErrorDialog(String message){
+    private void showErrorDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(message);
-        // alert.getDialogPane().setExpandableContent(new ScrollPane(new TextArea(message)));
         alert.showAndWait();
     }
 
-    public void addItem(Contact product){
-        lvProducts.getItems().add(product);
+    public void addItem(Contact contact) {
+        lvContacts.getItems().add(contact);
+    }
+
+    private void refresh() throws Exception {
+        contactService = ContactServiceImpl.getService();
+        Contact[] contacts = contactService.getContacts();
+        lvContacts.getItems().clear();
+        lvContacts.getItems().addAll(contacts);
     }
 }

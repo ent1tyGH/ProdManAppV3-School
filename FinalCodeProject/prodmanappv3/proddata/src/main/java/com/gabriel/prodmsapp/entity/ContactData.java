@@ -10,18 +10,14 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "product_data")
+@Table(name = "contact_data")  // Updated table name to reflect changes
 public class ContactData {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-    String name;
-    String description;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    int uomId;
-
-    String uomName;
-
+    private String name;
+    private String description;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)

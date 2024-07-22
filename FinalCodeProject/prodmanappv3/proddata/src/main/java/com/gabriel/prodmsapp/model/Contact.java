@@ -8,12 +8,8 @@ public class Contact {
     String name;
     String description;
 
-    int uomId;
-
-    String uomName;
-
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 }
