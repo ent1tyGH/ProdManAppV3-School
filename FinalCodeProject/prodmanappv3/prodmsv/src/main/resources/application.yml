@@ -1,0 +1,12 @@
+service:
+  api:
+    endpoint: http://localhost:3306/api/product
+logging:
+  level:
+    com:
+      gabriel:
+        prodms: TRACE
+
+
+
+

@@ -1,0 +1,8 @@
+com/gabriel/prodmsapp/repository/UomDataRepository.class
+com/gabriel/prodmsapp/entity/ProductData.class
+com/gabriel/prodmsapp/model/Uom.class
+com/gabriel/prodmsapp/service/UomService.class
+com/gabriel/prodmsapp/model/Product.class
+com/gabriel/prodmsapp/service/ProductService.class
+com/gabriel/prodmsapp/repository/ProductDataRepository.class
+com/gabriel/prodmsapp/entity/UomData.class
